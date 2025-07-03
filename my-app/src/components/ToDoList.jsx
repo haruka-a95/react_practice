@@ -15,13 +15,29 @@ export default function TodoList() {
     fetchTodos();
   }, []);
 
+  const markAsDone = (id) =>{
+    axios.post('http://localhost/api/update_todo.php',{
+      id,
+      done:true
+    }).then(()=>{
+      fetchTodos();
+    }).catch(console.error);
+  }
+
   return (
     <>
       <TodoAddForm onAdd={fetchTodos} />
       <ul>
         {todos.map(todo => (
-          <li key={todo.id}>
-            {todo.task} {todo.done ? '(完了)' : ''}
+          <li key={todo.id} style={{
+              textDecoration: todo.done ? 'line-through' : 'none',
+              color: todo.done ? '#888' : '#000'}}>
+            {todo.task}
+            {!todo.done && (
+              <button onClick={() => markAsDone(todo.id)} style={{ marginLeft: '10px' }}>
+                完了
+              </button>
+            )}
           </li>
         ))}
       </ul>

@@ -1,12 +1,24 @@
 import './App.css'
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import TodoList from './components/ToDoList'
+import UserList from './components/UserList'
+import Home from './components/Home';
 
 function App() {
   return (
-    <div>
-    <h1>ToDoアプリ</h1>
-          <TodoList />
-    </div>
+    <BrowserRouter>
+      <nav>
+        <NavLink to="/" className={({ isActive }) => isActive ? "active-link" : undefined}>ホーム</NavLink>
+        <NavLink to="/todo" className={({ isActive }) => isActive ? "active-link" : undefined}>ToDo</NavLink>
+        <NavLink to="/users" className={({ isActive }) => isActive ? "active-link" : undefined}>ユーザー一覧</NavLink>
+      </nav>
+
+    <Routes>
+      <Route path="/" element={<Home/>} />
+      <Route path="/todo" element={<TodoList />} />
+      <Route path="/users" element={<UserList />} />
+    </Routes>
+    </BrowserRouter>
   )
 }
 
